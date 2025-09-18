@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "BMG Jewellers Pvt Ltd",
+    "slug": "bmg-app-1",
+    "version": "1.0.2",
+    "orientation": "portrait",
+    "icon": "./assets/bmg.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/bmg.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.brightech.bmgjewellers",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "versionCode": 2,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/bmg.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.brightech.bmgjewellers"
+    },
+    "web": {
+      "favicon": "./assets/bmg.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8383a4b9-21ac-4ca4-be42-4cfed949c8cc"
+      }
+    },
+    "owner": "brightechsoftware",
+    "plugins": [
+      "expo-font",
+      "expo-video"
+    ]
+  }
+}
