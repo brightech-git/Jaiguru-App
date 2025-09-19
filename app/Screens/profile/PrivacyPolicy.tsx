@@ -99,7 +99,7 @@ const PrivacyPolicyPage = () => {
           borderLeftColor: dynamicColors.primary,
         }]}>
           <Text style={[styles.introText, { color: dynamicColors.text }]}>
-            At BMG Jewellers, we value your privacy and are committed to protecting your personal information. 
+            At Jaiguru Jewellers, we value your privacy and are committed to protecting your personal information. 
             This policy outlines how we collect, use, and safeguard your data.
           </Text>
         </View>
@@ -204,7 +204,7 @@ const PrivacyPolicyPage = () => {
         {/* Copyright */}
         <View style={styles.copyright}>
           <Text style={[styles.copyrightText, { color: dynamicColors.textLight }]}>
-            © {new Date().getFullYear()} BMG Jewellers. All rights reserved.
+            © {new Date().getFullYear()} Jaiguru Jewellers. All rights reserved.
           </Text>
         </View>
       </ScrollView>

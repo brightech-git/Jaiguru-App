@@ -45,7 +45,7 @@ function HelpCenterPage() {
 
   const handleOpenMap = () => {
     const address =
-      'M/s. BMG Jewellers Pvt Ltd, 160, Melamasi St, Madurai-625001';
+      'M/s. Jaiguru Jewellers, 160, Melamasi St, Madurai-625001';
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
     Linking.openURL(url);
   };
@@ -144,7 +144,7 @@ function HelpCenterPage() {
             >
               <View style={styles.addressContainer}>
                 <Text style={[styles.contactText, { color: dynamicColors.text }]}>
-                  M/s. BMG Jewellers Pvt Ltd
+                  M/s. Jaiguru Jewellers
                 </Text>
                 <Text style={[styles.contactText, { color: dynamicColors.text }]}>
                   160, Melamasi St, Madurai-625001

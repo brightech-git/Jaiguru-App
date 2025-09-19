@@ -103,21 +103,21 @@ export const FONTS = {
     fontFamily: "DMSerif",
   },
   h1: {
-    fontSize: SIZES.h1,
+    fontSize: SIZES.h2,
     color: COLORS.title,
-    fontFamily: "DMSerif",
+    fontFamily: "TrajanProBold",
     lineHeight: 40,
   },
   h2: {
-    fontSize: SIZES.h2,
+    fontSize: SIZES.h3,
     color: COLORS.title,
     fontFamily: "DMSerif",
     lineHeight: 36,
   },
   h3: {
-    fontSize: SIZES.h3,
+    fontSize: SIZES.h1,
     color: COLORS.title,
-    fontFamily: "TrajanProBold",
+    fontFamily: "DancingScript",
     lineHeight: 32,
   },
   h4: {
@@ -151,6 +151,13 @@ export const FONTS = {
   body: {
     fontFamily: 'DancingScript', 
     fontWeight: '400',
+  },
+
+  button: {
+   fontSize: SIZES.h3,
+    color: COLORS.text,
+    fontFamily: "DMSerif",
+    lineHeight: 32,
   },
   fontBold: { fontFamily: "JostBold" },
   fontMedium: { fontFamily: "JostMedium" },

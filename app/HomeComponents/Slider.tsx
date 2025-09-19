@@ -98,7 +98,7 @@ export default function BannerSlider() {
             />
             <View style={styles.titleContainer}>
               <Text style={[styles.titleText, { color: COLORS.title }]} numberOfLines={2}>
-                {item.title || "BMG Jewellers"}
+                {item.title || "Jaiguru Jewellers"}
               </Text>
             </View>
           </TouchableOpacity>

@@ -1,246 +1,287 @@
-import React, { useRef, useState } from 'react';
-import { useTheme } from '@react-navigation/native';
-import { View, SafeAreaView, Text, Image, Animated, ScrollView, StyleSheet, Platform, TouchableOpacity } from 'react-native';
-import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import Button from '../../components/Button/Button';
-import { IMAGES } from '../../constants/Images';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../../Navigations/RootStackParamList';
-import { GlobalStyleSheet } from '../../constants/StyleSheet';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useRef, useState } from "react";
+import {
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Animated,
+  SafeAreaView,
+  Dimensions,
+  Platform,
+  StyleSheet,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { COLORS, FONTS, SIZES } from "../../constants/theme";
 
+const { width, height } = Dimensions.get("window");
 
+const GetStartedScreen = () => {
+  const navigation = useNavigation();
+  const [step, setStep] = useState(1);
+  const translateX = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
 
-const DATA = [
-    {
-        title: "The Natural \nBeauty Of A Jewelry Collection",
-        desc: "Sophisticated Collection Inspired By Passion",
-    },
-    {
-        title: "Elegance Redefined \nTimeless Designs",
-        desc: "Jewelry That Celebrates Every Moment",
-    },
-    {
-        title: "Sparkle With Confidence \nShine Every Day",
-        desc: "Experience Craftsmanship Like Never Before",
-    },
-];
+  const handlePressIn = () => {
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: 0.96,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
 
-
-
-type OnbordingScreenProps = StackScreenProps<RootStackParamList, 'Onbording'>;
-
-const Onbording = ({ navigation }: OnbordingScreenProps) => {
-
-    const theme = useTheme();
-    const { colors }: { colors: any } = theme;
-    const scrollRef = useRef<any>();
-    const scrollX = useRef(new Animated.Value(0)).current;
-
-    const [sliderIndex, setSliderIndex] = useState(1);
-
-    const onScroll = async (val: number) => {
-        if (sliderIndex === DATA.length) {
-            await AsyncStorage.setItem('alreadyLaunched', 'true');
-            navigation.replace('SignIn'); // replace to avoid back navigation
-            return;
-        }
-
-        scrollRef.current?.scrollTo({
-            x: SIZES.width * val,
-            animated: true,
-        });
-
-        setSliderIndex(sliderIndex + 1);
-    };
-
-
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <View style={[GlobalStyleSheet.container, { padding: 0, flex: 1, overflow: 'hidden' }]}>
-                    <View style={[GlobalStyleSheet.row, { justifyContent: 'space-between' }]}>
-                        <View
-                            style={[
-                                GlobalStyleSheet.col50,
-                                {
-                                    transform: [{ rotate: '-41.8deg' }],
-                                    height: undefined,
-                                    aspectRatio: 1 / 1.5,
-                                    backgroundColor: '#C7C8CC',
-                                    marginTop: -40,
-                                    marginLeft: -40,
-                                    overflow: 'hidden',
-                                    borderBottomLeftRadius: 160,
-                                    borderBottomRightRadius: 160,
-                                    borderTopRightRadius: 100,
-                                }
-                            ]}
-                        >
-                            <Image
-                                style={{ width: '100%', height: undefined, aspectRatio: 2.4 / 3.2, transform: [{ rotate: '41.8deg' }, { scale: 1.5 }], marginTop: 60, marginLeft: Platform.OS === 'web' ? 0 : 25 }}
-                                source={IMAGES.item1}
-                            />
-                        </View>
-                        <View style={[GlobalStyleSheet.col50, { width: 144, height: 144, borderRadius: 100, backgroundColor: COLORS.white, marginRight: 50, marginTop: -30, alignItems: 'center' }]}>
-                            <Image
-                                style={{ resizeMode: 'contain', width: '100%', height: undefined, aspectRatio: 1 / 1, marginTop: 40 }}
-                                source={IMAGES.item3}
-                            />
-                        </View>
-                    </View>
-                    <View style={[GlobalStyleSheet.row, { justifyContent: 'space-between' }]}>
-                        <View style={[GlobalStyleSheet.col50, { width: 190, height: 190, borderRadius: 150, backgroundColor: COLORS.primary, marginLeft: -30, marginTop: 70, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }]}>
-                            <Image
-                                style={{ width: '100%', height: undefined, aspectRatio: 1 / 1.1, marginLeft: 20, marginTop: 10 }}
-                                source={IMAGES.item21}
-                            />
-                        </View>
-                        <View style={[
-                            GlobalStyleSheet.col50,
-                            {
-                                transform: [{ rotate: '-135deg' }],
-                                height: undefined,
-                                aspectRatio: 1 / 1,
-                                backgroundColor: COLORS.secondary,
-                                marginTop: '-60%',
-                                marginRight: -80,
-                                overflow: 'hidden',
-                                borderRadius: 160
-                            }
-                        ]}
-                        >
-                            <Image
-                                style={{ width: '100%', height: undefined, aspectRatio: 1 / 1.3, transform: [{ rotate: '135deg' }, { scale: Platform.OS === 'web' ? 2 : 1.6 }], marginTop: 52 }}
-                                source={IMAGES.item2}
-                            />
-                        </View>
-                    </View>
-                </View>
-                <View style={{ marginTop: 10 }}>
-                    <View style={[styles.indicatorConatiner, Platform.OS === "ios" && {
-                        bottom: 10
-                    }]} pointerEvents="none">
-                        {DATA.map((x, i) => (
-                            <Indicator i={i} key={i} scrollValue={scrollX} />
-                        ))}
-                    </View>
-                    <ScrollView
-                        // contentContainerStyle={{ marginTop: 20 }}
-                        ref={scrollRef}
-                        horizontal
-                        pagingEnabled
-                        scrollEventThrottle={16}
-                        decelerationRate="fast"
-                        showsHorizontalScrollIndicator={false}
-                        onScroll={
-                            Animated.event(
-                                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                                { useNativeDriver: false },
-                            )
-                        }
-                    >
-                        {DATA.map((data, index) => (
-
-                            <View style={[styles.slideItem, Platform.OS === "ios" && {
-                                // paddingBottom:35
-                            }]} key={index}>
-                                <View style={{ paddingHorizontal: 30 }}>
-                                    <Text style={{ ...FONTS.Marcellus, fontSize: 30, textAlign: 'left', color: colors.title }}>{data.title}</Text>
-                                    <Text style={{ ...FONTS.fontRegular, fontSize: 18, textAlign: 'left', lineHeight: 24, color: colors.title, paddingTop: 10, paddingRight: 100 }}>{data.desc}</Text>
-                                </View>
-                            </View>
-
-                        ))
-                        }
-                    </ScrollView>
-                </View>
-                <View style={[GlobalStyleSheet.container, { paddingHorizontal: 40 }]}>
-                    <View style={[GlobalStyleSheet.row, { justifyContent: 'space-between', alignItems: 'center' }]}>
-                        <TouchableOpacity
-                            onPress={async () => {
-                                await AsyncStorage.setItem('alreadyLaunched', 'true');
-                                navigation.replace('SignIn');
-                            }}
-                        >
-                            <Text style={{ ...FONTS.fontRegular, fontSize: 16, color: colors.title, textDecorationLine: 'underline' }}>Skip</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={{ width: '30%' }}
-                        >
-                            <Button
-                                onPress={() => onScroll(sliderIndex)}
-                                title={sliderIndex === DATA.length ? 'Start' : 'Next'}
-                                btnRounded
-                                color={COLORS.primary}
-                            />
-
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    )
-}
-
-function Indicator({ i, scrollValue }: any) {
-
-
-    const theme = useTheme();
-    const { colors }: { colors: any } = theme;
-
-    const translateX = scrollValue.interpolate({
-        inputRange: [-SIZES.width + i * SIZES.width, i * SIZES.width, SIZES.width + i * SIZES.width],
-        outputRange: [-20, 0, 20],
+  const handlePressOut = () => {
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        useNativeDriver: true,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      Animated.timing(translateX, {
+        toValue: -width,
+        duration: 600,
+        useNativeDriver: true,
+      }).start(() => {
+        setStep(2);
+      });
     });
-    return (
-        <View style={[styles.indicator, { backgroundColor: theme.dark ? 'rgba(255,255,255,0.20)' : 'rgba(195, 123, 95, 0.20)', borderColor: theme.dark ? 'rgba(255,255,255,0.20)' : 'rgba(195, 123, 95, 0.20)' }]}>
-            <Animated.View
-                style={[styles.activeIndicator, { transform: [{ translateX }], backgroundColor: COLORS.primary }]}
-            />
-        </View>
-    );
-}
+  };
 
+  const rotateInterpolate = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
+  const handleLogin = () => {
+    navigation.replace("SignIn");
+  };
+
+  const handleSignup = () => {
+    navigation.replace("SignUp");
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+      <Animated.View
+        style={{
+          flexDirection: "row",
+          width: width * 2,
+          height: height,
+          transform: [{ translateX }],
+        }}
+      >
+        {/* First Screen */}
+        <ImageBackground
+          source={require("../../assets/image1/onboard.png")}
+          style={[styles.container, { width, height }]}
+          resizeMode="cover"
+        >
+          <View style={styles.headingContainer}>
+            <Text style={[styles.heading, { color: COLORS.title }]}>
+              Welcome to Jaiguru Jewellers
+            </Text>
+            <Text style={[styles.subheading, { color: COLORS.title }]}>
+              The Beauty begins here
+            </Text>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableWithoutFeedback
+              onPressIn={handlePressIn}
+              onPressOut={handlePressOut}
+            >
+              <Animated.View
+                style={[
+                  styles.button, 
+                  { 
+                    backgroundColor: COLORS.primary,
+                    transform: [{ scale: scaleAnim }] 
+                  }
+                ]}
+              >
+                <Animated.Text
+                  style={[
+                    styles.buttonText, 
+                    { 
+                      color: COLORS.black,
+                      transform: [{ rotate: rotateInterpolate }] 
+                    },
+                  ]}
+                >
+                  Get Started ➜
+                </Animated.Text>
+              </Animated.View>
+            </TouchableWithoutFeedback>
+          </View>
+        </ImageBackground>
+
+        {/* Second Screen */}
+        <ImageBackground
+          source={require("../../assets/image1/onboard1.jpg")}
+          style={styles.secondScreenWrapper}
+          resizeMode="cover"
+        >
+          <View style={styles.secondOverlay} />
+
+          <View style={styles.secondContentBox}>
+            <Text style={[styles.secondTitle, { color: COLORS.white }]}>
+              Jaiguru Jewellers
+            </Text>
+            <Text style={[styles.secondTagline, { color: COLORS.warning }]}>
+              Shine with Trust & Tradition
+            </Text>
+
+            <View style={styles.secondBtnContainer}>
+              <TouchableOpacity 
+                onPress={handleLogin} 
+                style={[styles.secondLoginBtn, { backgroundColor: COLORS.primary }]}
+              >
+                <Text style={[styles.secondLoginText, { color: COLORS.black }]}>
+                  Log in
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                onPress={handleSignup} 
+                style={[styles.secondSignupBtn, { borderColor: COLORS.white }]}
+              >
+                <Text style={[styles.secondSignupText, { color: COLORS.white }]}>
+                  Sign up
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
+      </Animated.View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headingContainer: {
+    paddingHorizontal: SIZES.padding,
+    alignSelf: "center",
+    alignItems: "center",
+    marginBottom: SIZES.margin * 37,
+  },
+  heading: {
+    ...FONTS.h1,
+    textAlign: "center",
+    lineHeight: 40,
+    marginBottom: SIZES.margin / 1,
+  },
+  subheading: {
+    ...FONTS.h3,
+    textAlign: "center",
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: Platform.OS === "ios" ? 60 : 40,
+    width: "100%",
+    paddingHorizontal: SIZES.padding * 2,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: SIZES.margin * 4,
+  },
+  button: {
+    width: "100%",
+    paddingVertical: 14,
+    borderRadius: SIZES.radius_lg,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: COLORS.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  buttonText: {
+    ...FONTS.button,
+    fontWeight: "600",
+  },
+  secondScreenWrapper: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  },
+  secondOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  secondContentBox: {
+    width: width * 0.85,
+    paddingVertical: SIZES.padding * 2,
+    paddingHorizontal: SIZES.padding,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  secondTitle: {
+    ...FONTS.h1,
+    textAlign: "center",
+    // fontWeight: "bold",
+    marginTop: height * 0.01,
+  },
+  secondTagline: {
+    ...FONTS.h2,
+    textAlign: "center",
+    marginBottom: height * 0.3,
+    marginTop: SIZES.margin,
+    // fontWeight: "700",
+  },
+  secondBtnContainer: {
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  secondLoginBtn: {
+    width: "100%",
+    paddingVertical: 14,
+    borderRadius: SIZES.radius_lg,
+    marginBottom: SIZES.margin,
+    alignItems: "center",
+    elevation: 4,
+    shadowColor: COLORS.shadow,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  secondLoginText: {
+    ...FONTS.button,
+    // fontWeight: "600",
+  },
+  secondSignupBtn: {
+    borderWidth: 1.2,
+    width: "100%",
+    paddingVertical: 14,
+    borderRadius: SIZES.radius_lg,
+    alignItems: "center",
+  },
+  secondSignupText: {
+    ...FONTS.button,
+    // fontWeight: "600",
+  },
+});
 
-
-    slideItem: {
-        width: SIZES.width,
-        paddingBottom: 30,
-    },
-    slideItem2: {
-        width: SIZES.width,
-        alignItems: 'center',
-        justifyContent: 'center',
-        // padding: 20,
-        paddingBottom: 0,
-        paddingTop: 20,
-    },
-
-    indicatorConatiner: {
-        alignSelf: 'flex-end',
-        position: 'absolute',
-        flexDirection: 'row',
-        paddingRight: 30,
-        top: -30
-    },
-    indicator: {
-        height: 10,
-        width: 10,
-        borderRadius: 5,
-        marginHorizontal: 5,
-        borderWidth: 1,
-        overflow: 'hidden',
-    },
-    activeIndicator: {
-        height: '100%',
-        width: '100%',
-        backgroundColor: COLORS.primary,
-        borderRadius: 10,
-    },
-
-})
-export default Onbording;
+export default GetStartedScreen;

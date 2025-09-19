@@ -142,4 +142,12 @@ export const IMAGES = {
 	ads4: require('../assets/images/ads/banner4.png'),
 	ads5: require('../assets/images/ads/banner5.png'),
 
+
+	//New Images
+	onboard1: require('../assets/image1/onboard1.jpg'),
+	onboard2: require('../assets/image1/onboard2.jpg'),
+	onboard3: require('../assets/image1/onboard1.jpg'),
+
+
+
 }

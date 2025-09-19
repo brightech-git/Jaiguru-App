@@ -168,7 +168,7 @@ const SignIn = ({ navigation }: SignInScreenProps) => {
                 <CustomInput type={'password'} value={password} onChangeText={setPassword} />
                 <TouchableOpacity
                   style={{ position: 'absolute', bottom: -25, left: 0 }}
-                  onPress={() => navigation.navigate('ForgatPassword')}
+                  onPress={() => navigation.navigate('Onbording')}
                 >
                   <Text
                     style={{

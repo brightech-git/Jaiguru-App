@@ -19,7 +19,6 @@ import CustomInput from '../../components/Input/CustomInput';
 import Button from '../../components/Button/Button';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import SocialBtn from '../../components/Socials/SocialBtn';
-import { Checkbox } from 'react-native-paper';
 import { IMAGES } from '../../constants/Images';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../Navigations/RootStackParamList';
@@ -189,13 +188,13 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: COLORS.background }}
     >
       <ScrollView 
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-        <SafeAreaView style={{ backgroundColor: colors.background, flex: 1 }}>
+        <SafeAreaView style={{ backgroundColor: COLORS.background, flex: 1 }}>
           {/* Top Banner */}
           <View>
             <View style={styles.bannerCircle}>
@@ -204,10 +203,10 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                 source={IMAGES.item5}
                 resizeMode="cover"
               />
-              <View style={styles.bannerOverlay} />
+              <View style={[styles.bannerOverlay, { backgroundColor: COLORS.overlay }]} />
             </View>
             <View style={styles.bannerTextWrapper}>
-              <Text style={styles.bannerTitle}>
+              <Text style={[styles.bannerTitle, { color: COLORS.white }]}>
                 {showOtpForm ? 'Verify OTP' : 'Create your Account'}
               </Text>
             </View>
@@ -215,12 +214,12 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
 
           {/* Main Card */}
           <View style={[GlobalStyleSheet.container, { paddingTop: 0, marginTop: -200 }]}>
-            <View style={[styles.cardWrapper, Platform.OS === 'ios' && { backgroundColor: colors.card }]}>
-              <View style={styles.cardContent}>
+            <View style={[styles.cardWrapper, Platform.OS === 'ios' && { backgroundColor: COLORS.card }]}>
+              <View style={[styles.cardContent, { backgroundColor: COLORS.card }]}>
                 {showOtpForm ? (
                   <View style={styles.otpContainer}>
-                    <Text style={styles.otpTitle(colors)}>Verify OTP</Text>
-                    <Text style={styles.otpSubtitle(colors)}>
+                    <Text style={[styles.otpTitle, { color: COLORS.title }]}>Verify OTP</Text>
+                    <Text style={[styles.otpSubtitle, { color: COLORS.text }]}>
                       Enter the 6-digit code sent to{"\n"}
                       <Text style={styles.phoneNumberHighlight}>{form.contactNumber}</Text>
                     </Text>
@@ -230,8 +229,12 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                       inputCount={6}
                       keyboardType="number-pad"
                       tintColor={COLORS.primary}
-                      offTintColor={colors.border}
-                      textInputStyle={styles.otpBox(colors)}
+                      offTintColor={COLORS.borderColor}
+                      textInputStyle={[styles.otpBox, { 
+                        backgroundColor: COLORS.background,
+                        color: COLORS.title,
+                        borderColor: COLORS.borderColor
+                      }]}
                       autoFocus
                     />
 
@@ -240,7 +243,7 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                       style={{ marginTop: 15 }}
                       disabled={otpLoading}
                     >
-                      <Text style={styles.resendLink}>
+                      <Text style={[styles.resendLink, { color: COLORS.primary }]}>
                         Didn't receive OTP?{' '}
                         <Text style={styles.resendLinkUnderline}>Resend</Text>
                       </Text>
@@ -248,24 +251,24 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                   </View>
                 ) : (
                   <>
-                    <Text style={styles.formTitle(colors)}>
+                    <Text style={[styles.formTitle, { color: COLORS.title }]}>
                       Welcome Back! Please Enter{"\n"}Your Details
                     </Text>
 
                     <View style={styles.fieldWrapper}>
-                      <Text style={styles.fieldLabel(colors)}>Name<Text style={styles.required}>*</Text></Text>
+                      <Text style={[styles.fieldLabel, { color: COLORS.title }]}>Name<Text style={styles.required}>*</Text></Text>
                       <CustomInput 
                         onChangeText={(val) => handleChange('username', val)} 
                         value={form.username}
                         error={formErrors.username}
                       />
                       {formErrors.username ? (
-                        <Text style={styles.errorText}>{formErrors.username}</Text>
+                        <Text style={[styles.errorText, { color: COLORS.danger }]}>{formErrors.username}</Text>
                       ) : null}
                     </View>
 
                     <View style={styles.fieldWrapper}>
-                      <Text style={styles.fieldLabel(colors)}>Mobile Number<Text style={styles.required}>*</Text></Text>
+                      <Text style={[styles.fieldLabel, { color: COLORS.title }]}>Mobile Number<Text style={styles.required}>*</Text></Text>
                       <CustomInput
                         onChangeText={(val) => handleChange('contactNumber', val)}
                         value={form.contactNumber}
@@ -273,12 +276,12 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                         error={formErrors.contactNumber}
                       />
                       {formErrors.contactNumber ? (
-                        <Text style={styles.errorText}>{formErrors.contactNumber}</Text>
+                        <Text style={[styles.errorText, { color: COLORS.danger }]}>{formErrors.contactNumber}</Text>
                       ) : null}
                     </View>
 
                     <View style={styles.fieldWrapper}>
-                      <Text style={styles.fieldLabel(colors)}>Email Address<Text style={styles.required}>*</Text></Text>
+                      <Text style={[styles.fieldLabel, { color: COLORS.title }]}>Email Address<Text style={styles.required}>*</Text></Text>
                       <CustomInput
                         onChangeText={(val) => handleChange('email', val)}
                         value={form.email}
@@ -287,12 +290,12 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                         error={formErrors.email}
                       />
                       {formErrors.email ? (
-                        <Text style={styles.errorText}>{formErrors.email}</Text>
+                        <Text style={[styles.errorText, { color: COLORS.danger }]}>{formErrors.email}</Text>
                       ) : null}
                     </View>
 
                     <View style={styles.fieldWrapper}>
-                      <Text style={styles.fieldLabel(colors)}>Password<Text style={styles.required}>*</Text></Text>
+                      <Text style={[styles.fieldLabel, { color: COLORS.title }]}>Password<Text style={styles.required}>*</Text></Text>
                       <CustomInput
                         type="password"
                         onChangeText={(val) => handleChange('password', val)}
@@ -300,20 +303,27 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                         error={formErrors.password}
                       />
                       {formErrors.password ? (
-                        <Text style={styles.errorText}>{formErrors.password}</Text>
+                        <Text style={[styles.errorText, { color: COLORS.danger }]}>{formErrors.password}</Text>
                       ) : null}
                     </View>
 
-                    <Checkbox.Item
+                    {/* Custom Checkbox */}
+                    <TouchableOpacity 
+                      style={styles.checkboxContainer}
                       onPress={() => setIsChecked(!isChecked)}
-                      position="leading"
-                      label="I agree to all Term, Privacy and Fees"
-                      color={colors.title}
-                      uncheckedColor={colors.textLight}
-                      status={isChecked ? 'checked' : 'unchecked'}
-                      style={styles.checkbox}
-                      labelStyle={styles.checkboxLabel(colors)}
-                    />
+                    >
+                      <View style={[
+                        styles.checkbox, 
+                        isChecked ? styles.checkboxChecked : styles.checkboxUnchecked
+                      ]}>
+                        {isChecked && (
+                          <Feather name="check" size={16} color={COLORS.white} />
+                        )}
+                      </View>
+                      <Text style={[styles.checkboxLabel, { color: COLORS.title }]}>
+                        I agree to all Term, Privacy and Fees
+                      </Text>
+                    </TouchableOpacity>
                   </>
                 )}
               </View>
@@ -337,12 +347,13 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
                 onPress={showOtpForm ? handleVerifyOtp : handleSignup}
                 icon={
                   isLoading || otpLoading ? (
-                    <ActivityIndicator size="small" color={COLORS.primary} />
+                    <ActivityIndicator size="small" color={COLORS.white} />
                   ) : (
-                    <Feather size={24} color={COLORS.primary} name="arrow-right" />
+                    <Feather size={24} color={COLORS.white} name="arrow-right" />
                   )
                 }
                 color={COLORS.primary}
+                textColor={COLORS.white}
               />
             </View>
           </View>
@@ -350,22 +361,22 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
           {/* Social Sign In */}
           {!showOtpForm && (
             <View style={styles.socialContainer}>
-              <View style={styles.socialDivider(colors)}>
-                <View style={styles.dividerLine(colors)} />
-                <Text style={styles.dividerText(colors)}>Or continue with</Text>
-                <View style={styles.dividerLine(colors)} />
+              <View style={styles.socialDivider}>
+                <View style={[styles.dividerLine, { backgroundColor: COLORS.title }]} />
+                <Text style={[styles.dividerText, { color: COLORS.text }]}>Or continue with</Text>
+                <View style={[styles.dividerLine, { backgroundColor: COLORS.title }]} />
               </View>
               <View>
                 <SocialBtn
                   icon={<Image style={styles.socialIcon} source={IMAGES.google2} />}
                   rounded
-                  color={theme.dark ? '#000' : '#FFFFFF'}
+                  color={theme.dark ? COLORS.black : COLORS.white}
                   text="Sign in with google"
                 />
                 <SocialBtn
-                  icon={<FontAwesome name="apple" size={20} color={colors.title} />}
+                  icon={<FontAwesome name="apple" size={20} color={COLORS.title} />}
                   rounded
-                  color={theme.dark ? '#000' : '#FFFFFF'}
+                  color={theme.dark ? COLORS.black : COLORS.white}
                   text="Sign in with apple"
                 />
               </View>
@@ -374,11 +385,14 @@ const SignUp = ({ navigation }: SignUpScreenProps) => {
 
           {/* Footer */}
           <View style={styles.footer}>
-            <Text style={styles.footerText(colors)}>
+            <Text style={[styles.footerText, { color: COLORS.title }]}>
               Already have an account?
             </Text>
             <TouchableOpacity onPress={navigateToSignIn}>
-              <Text style={styles.signInLink(colors)}> Sign In</Text>
+              <Text style={[styles.signInLink, { 
+                color: COLORS.title,
+                borderBottomColor: COLORS.title 
+              }]}> Sign In</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -407,7 +421,6 @@ const styles = StyleSheet.create({
   bannerOverlay: {
     width: 600,
     height: 500,
-    backgroundColor: '#360F00',
     borderRadius: 250,
     position: 'absolute',
     opacity: 0.8,
@@ -418,12 +431,11 @@ const styles = StyleSheet.create({
     left: 20,
   },
   bannerTitle: {
-    ...FONTS.Marcellus,
-    fontSize: 23,
-    color: COLORS.card,
+    ...FONTS.h3,
+    fontFamily: 'TrajanProBold',
   },
   cardWrapper: {
-    shadowColor: 'rgba(195, 123, 95, 0.20)',
+    shadowColor: COLORS.shadow,
     shadowOffset: { width: 2, height: 20 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -431,7 +443,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   cardContent: {
-    backgroundColor: COLORS.card,
     padding: 30,
     borderRadius: 40,
     paddingBottom: 40,
@@ -440,76 +451,79 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 40,
   },
-  otpTitle: (colors: any) => ({
-    ...FONTS.Marcellus,
-    fontSize: 22,
-    color: colors.title,
+  otpTitle: {
+    ...FONTS.h4,
     marginBottom: 8,
-  }),
-  otpSubtitle: (colors: any) => ({
-    ...FONTS.fontRegular,
-    fontSize: 14,
-    color: colors.text,
+  },
+  otpSubtitle: {
+    ...FONTS.font,
     marginBottom: 25,
     textAlign: 'center',
     lineHeight: 20,
-  }),
+  },
   phoneNumberHighlight: {
-    fontWeight: '600',
+    ...FONTS.fontSemiBold,
     color: COLORS.primary,
   },
-  otpBox: (colors: any) => ({
+  otpBox: {
     borderWidth: 1,
     borderRadius: 10,
     width: 45,
     height: 50,
-    color: colors.title,
     fontSize: 18,
-    backgroundColor: colors.background,
-  }),
+  },
   resendLink: {
-    color: COLORS.primary,
-    fontSize: 14,
+    ...FONTS.font,
   },
   resendLinkUnderline: {
     textDecorationLine: 'underline',
   },
-  formTitle: (colors: any) => ({
-    ...FONTS.Marcellus,
-    fontSize: 18,
-    color: colors.title,
+  formTitle: {
+    ...FONTS.h4,
     lineHeight: 24,
     marginBottom: 10,
-  }),
+  },
   fieldWrapper: {
     marginBottom: 8,
     marginTop: 15,
   },
-  fieldLabel: (colors: any) => ({
-    ...FONTS.fontRegular,
-    fontSize: 15,
-    color: colors.title,
+  fieldLabel: {
+    ...FONTS.font,
     marginBottom: 5,
-  }),
+  },
   required: {
-    color: '#FF0000',
+    color: COLORS.danger,
   },
   errorText: {
-    ...FONTS.fontRegular,
-    fontSize: 12,
-    color: COLORS.danger,
+    ...FONTS.fontXs,
     marginTop: 5,
   },
-  checkbox: {
-    paddingHorizontal: 0,
-    paddingVertical: 2,
+  // Custom Checkbox Styles
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 15,
   },
-  checkboxLabel: (colors: any) => ({
-    ...FONTS.fontRegular,
-    fontSize: 15,
-    color: colors.title,
-  }),
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  checkboxChecked: {
+    backgroundColor: COLORS.primary,
+  },
+  checkboxUnchecked: {
+    backgroundColor: COLORS.background,
+    borderWidth: 1,
+    borderColor: COLORS.borderColor,
+  },
+  checkboxLabel: {
+    ...FONTS.font,
+    flex: 1,
+  },
   buttonContainer: {
     paddingHorizontal: 60,
     marginTop: -30,
@@ -520,23 +534,20 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 5,
   },
-  socialDivider: (colors: any) => ({
+  socialDivider: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-  }),
-  dividerLine: (colors: any) => ({
+  },
+  dividerLine: {
     height: 1,
     flex: 1,
-    backgroundColor: colors.title,
     opacity: 0.3,
-  }),
-  dividerText: (colors: any) => ({
-    ...FONTS.fontMedium,
-    color: colors.text,
+  },
+  dividerText: {
+    ...FONTS.fontSm,
     marginHorizontal: 15,
-    fontSize: 13,
-  }),
+  },
   socialIcon: {
     height: 20,
     width: 20,
@@ -549,17 +560,13 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: Platform.select({ ios: 30, android: 10 }),
   },
-  footerText: (colors: any) => ({
-    ...FONTS.fontRegular,
-    fontSize: 15,
-    color: colors.title,
-  }),
-  signInLink: (colors: any) => ({
+  footerText: {
+    ...FONTS.font,
+  },
+  signInLink: {
     ...FONTS.fontMedium,
     borderBottomWidth: 1,
-    borderBottomColor: colors.title,
-    color: colors.title,
-  }),
+  },
 });
 
 export default SignUp;
